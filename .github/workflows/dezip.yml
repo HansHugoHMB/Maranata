@@ -1,0 +1,28 @@
+name: Décompresser MaranathaHymnBook.zip
+
+on:
+  push:
+    branches:
+      - main  # Remplacez par la branche souhaitée si nécessaire
+
+jobs:
+  dezipper:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Vérifier le code du dépôt
+      uses: actions/checkout@v2
+
+    - name: Télécharger le fichier ZIP
+      run: |
+        curl -L -o MaranathaHymnBook.zip https://github.com/HansHugoHMB/Maranata/raw/main/MaranathaHymnBook.zip
+
+    - name: Décompresser le fichier ZIP
+      run: |
+        unzip MaranathaHymnBook.zip -d hymnal_content
+
+    - name: Ajouter et valider les fichiers décompressés
+      run: |
+        git add hymnal_content/*
+        git commit -m "Ajout du contenu du MaranathaHymnBook"
+        git push origin main
